@@ -1,0 +1,32 @@
+{
+  "itemGroup.youtubedisks": "Youtube Disks",
+
+  "item.youtubedisks.blank_disk":    "Disco vacío",
+  "item.youtubedisks.recorded_disk": "Disco grabado",
+
+  "block.youtubedisks.disk_recorder": "Grabadora de discos",
+  "block.youtubedisks.speaker":       "Altavoz",
+
+  "container.youtubedisks.disk_recorder": "Grabadora de discos",
+  "container.youtubedisks.speaker":       "Altavoz",
+
+  "youtubedisks.gui.url_placeholder":     "Pegá una URL de YouTube...",
+  "youtubedisks.gui.record_button":       "Grabar",
+  "youtubedisks.gui.record_button.busy":  "Grabando...",
+  "youtubedisks.gui.record_button.again": "Grabar otro",
+  "youtubedisks.gui.record_button.retry": "Reintentar",
+
+  "youtubedisks.status.extracting":  "Conectando a YouTube...",
+  "youtubedisks.status.transcoding": "Convirtiendo %1$s a .ogg...",
+  "youtubedisks.status.uploading":   "Subiendo al servidor...",
+  "youtubedisks.status.complete":    "Listo: %1$s (%2$s) — disco entregado",
+  "youtubedisks.status.error":       "Falló: %1$s",
+
+  "youtubedisks.tooltip.empty_disc": "(sin grabación)",
+
+  "youtubedisks.speaker.play":      "Play",
+  "youtubedisks.speaker.stop":      "Stop",
+  "youtubedisks.speaker.next":      "Siguiente",
+  "youtubedisks.speaker.no_track":  "(sin track cargado)",
+  "youtubedisks.speaker.added":     "Agregado: %1$s"
+}

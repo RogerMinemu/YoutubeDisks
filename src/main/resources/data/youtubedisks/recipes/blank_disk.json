@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BBB",
+    "BRB",
+    "BBB"
+  ],
+  "key": {
+    "B": { "item": "minecraft:black_wool" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": {
+    "id": "youtubedisks:blank_disk",
+    "count": 1
+  }
+}

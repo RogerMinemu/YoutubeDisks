@@ -10,3 +10,6 @@ Una vez el disco ha sido grabado, el .ogg será subido al servidor para posterio
 
 ## Requisitos
 - .jar buildeado para Minecraft 1.21.1 Modloader neoforge-21.1.224
+
+## Texturas
+Para los discos, disk recorder y otros items / modelos del mod, usa una carpeta de texturas y un png mock para que nuestra diseñadora haga la textura

@@ -1,0 +1,129 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.78'
+}
+
+version = project.mod_version
+group = project.mod_group_id
+
+base {
+    archivesName = project.mod_id
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'JitPack'
+        url = 'https://jitpack.io'
+    }
+}
+
+neoForge {
+    version = project.neo_version
+
+    mods {
+        "${project.mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+
+    runs {
+        client {
+            client()
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
+            gameDirectory = file('run/client')
+        }
+        server {
+            server()
+            programArgument '--nogui'
+            gameDirectory = file('run/server')
+        }
+    }
+}
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+dependencies {
+    // YouTube extraction — pure-Java, embedded into the final mod jar via Jar-in-Jar.
+    implementation "com.github.TeamNewPipe:NewPipeExtractor:${project.newpipeextractor_version}"
+    additionalRuntimeClasspath "com.github.TeamNewPipe:NewPipeExtractor:${project.newpipeextractor_version}"
+    jarJar(implementation("com.github.TeamNewPipe:NewPipeExtractor")) {
+        version {
+            prefer project.newpipeextractor_version
+        }
+    }
+
+    // Audio transcoding — bundled ffmpeg binaries for CLIENT-side YouTube → .ogg conversion.
+    // Adds ~30MB to the final mod jar (binaries for win/mac/linux x64+arm).
+    implementation "ws.schild:jave-all-deps:${project.jave_version}"
+    additionalRuntimeClasspath "ws.schild:jave-all-deps:${project.jave_version}"
+    jarJar(implementation("ws.schild:jave-all-deps")) {
+        version {
+            prefer project.jave_version
+        }
+    }
+
+    // Test stack: JUnit 5.
+    testImplementation platform("org.junit:junit-bom:${project.junit_version}")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+        minecraft_version       : project.minecraft_version,
+        minecraft_version_range : project.minecraft_version_range,
+        neo_version             : project.neo_version,
+        neo_version_range       : project.neo_version_range,
+        loader_version_range    : project.loader_version_range,
+        mod_id                  : project.mod_id,
+        mod_name                : project.mod_name,
+        mod_license             : project.mod_license,
+        mod_version             : project.mod_version,
+        mod_authors             : project.mod_authors,
+        mod_description         : project.mod_description,
+    ]
+    inputs.properties(replaceProperties)
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}
+
+test {
+    useJUnitPlatform()
+    // NewPipeExtractor sends headers like Host/Connection that the JDK HTTP client rejects unless allowed.
+    jvmArgs '-Djdk.httpclient.allowRestrictedHeaders=host,content-length,connection'
+
+    // Forward -Dyoutubedisks.* properties from the Gradle CLI down to the test JVM.
+    System.properties.each { k, v ->
+        def key = k.toString()
+        if (key.startsWith('youtubedisks.')) {
+            systemProperty key, v.toString()
+        }
+    }
+
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+        showStandardStreams = true
+    }
+}
+
+tasks.named('jar') {
+    manifest {
+        attributes([
+            'Specification-Title'    : project.mod_id,
+            'Specification-Vendor'   : project.mod_authors,
+            'Specification-Version'  : '1',
+            'Implementation-Title'   : project.mod_id,
+            'Implementation-Version' : project.version,
+            'Implementation-Vendor'  : project.mod_authors,
+        ])
+    }
+}

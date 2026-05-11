@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top":    "youtubedisks:block/disk_recorder_top",
+    "side":   "youtubedisks:block/disk_recorder_side",
+    "bottom": "youtubedisks:block/disk_recorder_bottom"
+  }
+}

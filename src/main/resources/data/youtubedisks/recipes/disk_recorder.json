@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IRI",
+    "RJR",
+    "IRI"
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "R": { "item": "minecraft:redstone" },
+    "J": { "item": "minecraft:jukebox" }
+  },
+  "result": {
+    "id": "youtubedisks:disk_recorder",
+    "count": 1
+  }
+}
